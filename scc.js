@@ -48,5 +48,19 @@ exports.calcSCC = function (g, order) {
 		}
 	}
 
-	return g;
+	// top 5
+	var scc = [];
+	g.forEach(function (item) {
+		var leader = item.leader;
+		scc[leader] = scc[leader] ? scc[leader]+1 : 1;
+	});
+
+	scc.sort(function (a, b) {
+		return a < b;
+	});
+
+console.log(g);
+console.log(scc);
+
+	return scc;
 };

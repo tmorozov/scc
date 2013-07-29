@@ -13,7 +13,6 @@ function toI(item) {
 
 exports.showStats = function (graph) {
   console.log('grapth:', graph.G.length, graph.R.length);
-  console.log(graph);
 }
 
 exports.loadGraphData = function (fileName, cb) {
