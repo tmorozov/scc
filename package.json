@@ -1,0 +1,14 @@
+{
+  "name": "GraphMinCut",
+  "version": "0.0.1",
+  "dependencies": {
+    "line-reader": "*",
+    "lazy": "*",
+    "commander": "*"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
+
