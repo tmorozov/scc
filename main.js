@@ -2,6 +2,7 @@
 
 var program = require('commander');
 var fdgraph = require('./load_directed_graph');
+var scc = require('./scc');
 
 //var INPUT_FILE_DEFAULT = "./samples/kargerMinCut.txt";
 var INPUT_FILE_DEFAULT = "./samples/SCC.txt";
@@ -14,6 +15,14 @@ function clone(fn) {
 
 function onGraph(graph) {
 	fdgraph.showStats(graph);
+	var finishTimes = scc.calcFinishTime(graph.R);
+
+	// console.log(graph.R);
+	// console.log(finishTimes);
+
+	scc.calcSCC(graph.G, finishTimes);
+
+	// console.log(graph.G);
 }
 
 if(require.main == module) {
@@ -22,7 +31,6 @@ if(require.main == module) {
     .parse(process.argv);
 
   var graph = fdgraph.loadGraphData(program.file, onGraph);
-  // fdgraph.showStats(graph);
 } else {
 //  exports.checkHtmlFile = countInversions;
 }

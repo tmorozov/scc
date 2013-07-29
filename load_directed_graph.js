@@ -12,12 +12,14 @@ function toI(item) {
 }
 
 exports.showStats = function (graph) {
-  console.log('grapth:', graph.G.length, graph.revG.length);
+  console.log('grapth:', graph.G.length, graph.R.length);
+  console.log(graph);
 }
 
 exports.loadGraphData = function (fileName, cb) {
   var G = [];
-  var revG = [];
+  var R = []; //reverse graph
+
   var regSplit = /\s+/;
 
   lineReader.eachLine(fileName, function(line) {
@@ -25,20 +27,40 @@ exports.loadGraphData = function (fileName, cb) {
       .filter(notEmpty)
       .map(toI);
 
-    if(G[arc[0]] === undefined) {
-      G[arc[0]] = [];
+    if(arc.length !== 2) {
+      console.log('invalid arc', arc);
+      return;
     }
-    G[arc[0]].push(arc[1]);
 
-    if(revG[arc[1]] === undefined) {
-      revG[arc[1]] = [];
+
+    if(G[arc[0]] === undefined) {
+      G[arc[0]] = {
+        arcs: []
+      };
     }
-    revG[arc[1]].push(arc[0]);
+    if(G[arc[1]] === undefined) {
+      G[arc[1]] = {
+        arcs: []
+      };
+    }
+    if(R[arc[0]] === undefined) {
+      R[arc[0]] = {
+        arcs: []
+      };
+    }
+    if(R[arc[1]] === undefined) {
+      R[arc[1]] = {
+        arcs: []
+      };
+    }
+
+    G[arc[0]].arcs.push(arc[1]);
+    R[arc[1]].arcs.push(arc[0]);
 
   }).then(function () {
     cb({
       G: G,
-      revG: revG
+      R: R
     });
   });
 
@@ -52,4 +74,3 @@ exports.assertFileExists = function(file) {
     }
     return instr;
 };
-
