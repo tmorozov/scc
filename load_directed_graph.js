@@ -16,7 +16,6 @@ function graphStat(g) {
   var nodes = 0;
   g.forEach(function(item) {
     nodes++;
-
     item.arcs.forEach(function(arc) {
       arcs++;
     });
@@ -27,7 +26,7 @@ function graphStat(g) {
 }
 
 exports.showStats = function (graph) {
-  console.log('grapth:', graph.G.length, graph.R.length);
+  console.log('graph:', graph.G.length, graph.R.length);
   console.log('G');
   graphStat(graph.G);
   console.log('R');

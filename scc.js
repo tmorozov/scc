@@ -10,7 +10,7 @@ function dfsFirst(rg, node_i) {
 		var i = stack.pop();
 		stack.push(i);
 		var tmp = rg[i];
-		
+
 		var child_i = false;
 		for(var j= tmp.arcs.length-1; j>=0; j--) {
 			var arc_i = tmp.arcs[j];
@@ -29,39 +29,9 @@ function dfsFirst(rg, node_i) {
 			tmp['ft'] = t;
 			tmp['leader'] = S;
 		}
-
-// console.log(stack);
 	}
 }
 
-
-// function dfsFirst(rg, node_i) {
-// 	var stack = [];
-// 	stack.push(node_i);
-// 	rg[node_i]['stacked'] = true;
-
-// 	while(stack.length) {
-// 		var i = stack.pop();
-// 		var tmp = rg[i];
-// 		if (tmp.passed) {
-// 			t++;
-// 			tmp['ft'] = t;
-// 		} else {
-// 			tmp['passed'] = true;
-// 			tmp['leader'] = S;
-// 			stack.push(i);
-// 		}
-
-// 		for(var j=tmp.arcs.length-1; j>=0; j--){
-// 			var arc_i = tmp.arcs[j];
-// 			if(!rg[arc_i].passed && !rg[arc_i].stacked) {
-// 				stack.push(arc_i);
-// 				rg[arc_i]['stacked'] = true;
-// 			}
-// 		}
-// console.log(stack);
-// 	}
-// }
 
 // // recursive approach:
 // function dfsFirst(rg, i) {
@@ -90,14 +60,11 @@ exports.calcFinishTime = function (rg) {
 		}
 	}
 
-console.log('1st dfs passed');
-
 	var ft = [];
 	rg.forEach(function (item, index) {
 		ft[item.ft] = index;
 	});
 
-console.log('ft created');
 	return ft;
 };
 
@@ -106,28 +73,27 @@ exports.calcSCC = function (g, order) {
 	t = 0;
 	S = null;
 
+	var scc = [];
+
 	for(var i=n; i>=1; i--) {
 		var tmp_i = order[i];
 		if(!g[tmp_i].passed) {
 			S = tmp_i;
 			dfsFirst(g, tmp_i);
 		}
+		scc[i] = 0;
 	}
-console.log('2nd dfs passed');
+
 	// collect & sort
-	var scc = [];
 	g.forEach(function (item) {
 		var leader = item.leader;
-		if(!leader) {
-			console.log('invalid leader');
-		}
-		scc[leader] = scc[leader] ? scc[leader]+1 : 1;
+		scc[leader] = 1+scc[leader];
 	});
-console.log('scc colected');
+
 	scc.sort(function (a, b) {
-		return a < b;
+		return b - a;
 	});
-console.log('scc sorted');
+
 	return scc;
 };
 
