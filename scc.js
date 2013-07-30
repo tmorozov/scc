@@ -4,36 +4,27 @@ var t;
 function dfsFirst(rg, node_i) {
 	var stack = [];
 	stack.push(node_i);
+	rg[node_i]['passed'] = true;
 
 	while(stack.length) {
 		var i = stack.pop();
 		stack.push(i);
 		var tmp = rg[i];
-
-		if(tmp.passed) {
-			stack.pop();
-			if(!tmp.ft) {
-				t++;
-				tmp['ft'] = t;
-				tmp['leader'] = S;
-			}
-			continue;
-		}
-
-		tmp['passed'] = true;
-
-		var hasChilds = false;
-		for(var j=tmp.arcs.length-1; j>=0; j--){
+		
+		var child_i = false;
+		for(var j= tmp.arcs.length-1; j>=0; j--) {
 			var arc_i = tmp.arcs[j];
-			if(!rg[arc_i].passed) {
-				stack.push(arc_i);
-				hasChilds = true;
+			if (!rg[arc_i].passed) {
+				child_i = arc_i;
+				break;
 			}
 		}
 
-		if(!hasChilds) {
+		if (child_i) {
+			stack.push(child_i);
+			rg[child_i]['passed'] = true;
+		} else {
 			stack.pop();
-
 			t++;
 			tmp['ft'] = t;
 			tmp['leader'] = S;
@@ -99,14 +90,14 @@ exports.calcFinishTime = function (rg) {
 		}
 	}
 
-//console.log('1st dfs passed');
+console.log('1st dfs passed');
 
 	var ft = [];
 	rg.forEach(function (item, index) {
 		ft[item.ft] = index;
 	});
 
-//console.log('ft created');
+console.log('ft created');
 	return ft;
 };
 
@@ -122,7 +113,7 @@ exports.calcSCC = function (g, order) {
 			dfsFirst(g, tmp_i);
 		}
 	}
-//console.log('2nd dfs passed');
+console.log('2nd dfs passed');
 	// collect & sort
 	var scc = [];
 	g.forEach(function (item) {
@@ -132,11 +123,11 @@ exports.calcSCC = function (g, order) {
 		}
 		scc[leader] = scc[leader] ? scc[leader]+1 : 1;
 	});
-//console.log('scc colected');
+console.log('scc colected');
 	scc.sort(function (a, b) {
 		return a < b;
 	});
-//console.log('scc sorted');
+console.log('scc sorted');
 	return scc;
 };
 
