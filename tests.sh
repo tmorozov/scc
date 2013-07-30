@@ -7,4 +7,5 @@ node main.js -f ./samples/test4.txt; cat ./samples/res4.txt
 node main.js -f ./samples/test5.txt; cat ./samples/res5.txt
 node main.js -f ./samples/test6.txt; cat ./samples/res6.txt
 node main.js -f ./samples/test7.txt; cat ./samples/res7.txt
-
+node main.js -f ./samples/test8.txt; cat ./samples/res8.txt
+node main.js -f ./samples/test9.txt; cat ./samples/res9.txt
