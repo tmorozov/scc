@@ -14,14 +14,11 @@ function clone(fn) {
 };
 
 function onGraph(graph) {
-	fdgraph.showStats(graph);
+	//fdgraph.showStats(graph);
 	var finishTimes = scc.calcFinishTime(graph.R);
 
-	// console.log(graph.R);
-	// console.log(finishTimes);
-
 	var res = scc.calcSCC(graph.G, finishTimes);
-  scc.showStats(res, 5);
+	scc.showStats(res, 5);
 }
 
 if(require.main == module) {

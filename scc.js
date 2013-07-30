@@ -99,16 +99,14 @@ exports.calcFinishTime = function (rg) {
 		}
 	}
 
-console.log('1st dfs passed');
+//console.log('1st dfs passed');
 
 	var ft = [];
 	rg.forEach(function (item, index) {
 		ft[item.ft] = index;
 	});
 
-console.log('ft created');
-// console.log(rg);
-// console.log(ft);
+//console.log('ft created');
 	return ft;
 };
 
@@ -124,7 +122,7 @@ exports.calcSCC = function (g, order) {
 			dfsFirst(g, tmp_i);
 		}
 	}
-console.log('2nd dfs passed');
+//console.log('2nd dfs passed');
 	// collect & sort
 	var scc = [];
 	g.forEach(function (item) {
@@ -134,11 +132,11 @@ console.log('2nd dfs passed');
 		}
 		scc[leader] = scc[leader] ? scc[leader]+1 : 1;
 	});
-console.log('scc colected');
+//console.log('scc colected');
 	scc.sort(function (a, b) {
 		return a < b;
 	});
-console.log('scc sorted');
+//console.log('scc sorted');
 	return scc;
 };
 
