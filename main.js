@@ -14,7 +14,7 @@ function clone(fn) {
 };
 
 function onGraph(graph) {
-	//fdgraph.showStats(graph);
+	fdgraph.showStats(graph);
 	var finishTimes = scc.calcFinishTime(graph.R);
 
 	var res = scc.calcSCC(graph.G, finishTimes);

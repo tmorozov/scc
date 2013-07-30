@@ -11,8 +11,27 @@ function toI(item) {
   return ~~item;
 }
 
+function graphStat(g) {
+  var arcs = 0;
+  var nodes = 0;
+  g.forEach(function(item) {
+    nodes++;
+
+    item.arcs.forEach(function(arc) {
+      arcs++;
+    });
+  });
+
+  console.log('nodes', nodes);
+  console.log('arcs', arcs);
+}
+
 exports.showStats = function (graph) {
   console.log('grapth:', graph.G.length, graph.R.length);
+  console.log('G');
+  graphStat(graph.G);
+  console.log('R');
+  graphStat(graph.R);
 }
 
 exports.loadGraphData = function (fileName, cb) {
