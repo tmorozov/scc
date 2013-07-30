@@ -1,19 +1,91 @@
 var S;
 var t;
 
-function dfsFirst(rg, i) {
-	rg[i]['passed'] = true;
-	rg[i]['leader'] = S;
+function dfsFirst(rg, node_i) {
+	var stack = [];
+	stack.push(node_i);
 
-	rg[i].arcs.forEach(function (j) {
-		if(!rg[j].passed) {
-			dfsFirst(rg, j);
+	while(stack.length) {
+		var i = stack.pop();
+		stack.push(i);
+		var tmp = rg[i];
+
+		if(tmp.passed) {
+			stack.pop();
+			if(!tmp.ft) {
+				t++;
+				tmp['ft'] = t;
+				tmp['leader'] = S;
+			}
+			continue;
 		}
-	});
-	t++;
 
-	rg[i]['ft'] = t;
+		tmp['passed'] = true;
+
+		var hasChilds = false;
+		for(var j=tmp.arcs.length-1; j>=0; j--){
+			var arc_i = tmp.arcs[j];
+			if(!rg[arc_i].passed) {
+				stack.push(arc_i);
+				hasChilds = true;
+			}
+		}
+
+		if(!hasChilds) {
+			stack.pop();
+
+			t++;
+			tmp['ft'] = t;
+			tmp['leader'] = S;
+		}
+
+// console.log(stack);
+	}
 }
+
+
+// function dfsFirst(rg, node_i) {
+// 	var stack = [];
+// 	stack.push(node_i);
+// 	rg[node_i]['stacked'] = true;
+
+// 	while(stack.length) {
+// 		var i = stack.pop();
+// 		var tmp = rg[i];
+// 		if (tmp.passed) {
+// 			t++;
+// 			tmp['ft'] = t;
+// 		} else {
+// 			tmp['passed'] = true;
+// 			tmp['leader'] = S;
+// 			stack.push(i);
+// 		}
+
+// 		for(var j=tmp.arcs.length-1; j>=0; j--){
+// 			var arc_i = tmp.arcs[j];
+// 			if(!rg[arc_i].passed && !rg[arc_i].stacked) {
+// 				stack.push(arc_i);
+// 				rg[arc_i]['stacked'] = true;
+// 			}
+// 		}
+// console.log(stack);
+// 	}
+// }
+
+// // recursive approach:
+// function dfsFirst(rg, i) {
+// 	rg[i]['passed'] = true;
+// 	rg[i]['leader'] = S;
+
+// 	rg[i].arcs.forEach(function (j) {
+// 		if(!rg[j].passed) {
+// 			dfsFirst(rg, j);
+// 		}
+// 	});
+// 	t++;
+
+// 	rg[i]['ft'] = t;
+// }
 
 exports.calcFinishTime = function (rg) {
 	var n = rg.length -1;
@@ -27,11 +99,16 @@ exports.calcFinishTime = function (rg) {
 		}
 	}
 
+console.log('1st dfs passed');
 
 	var ft = [];
 	rg.forEach(function (item, index) {
 		ft[item.ft] = index;
 	});
+
+console.log('ft created');
+// console.log(rg);
+// console.log(ft);
 	return ft;
 };
 
@@ -47,20 +124,29 @@ exports.calcSCC = function (g, order) {
 			dfsFirst(g, tmp_i);
 		}
 	}
-
-	// top 5
+console.log('2nd dfs passed');
+	// collect & sort
 	var scc = [];
 	g.forEach(function (item) {
 		var leader = item.leader;
+		if(!leader) {
+			console.log('invalid leader');
+		}
 		scc[leader] = scc[leader] ? scc[leader]+1 : 1;
 	});
-
+console.log('scc colected');
 	scc.sort(function (a, b) {
 		return a < b;
 	});
-
-console.log(g);
-console.log(scc);
-
+console.log('scc sorted');
 	return scc;
+};
+
+exports.showStats = function (scc, depth) {
+	var tmp = [];
+	for(var i=0; i<depth; i++) {
+		tmp[i] = ~~scc[i];
+	}
+	console.log('scc', scc.filter(function(item){ return !!item;}).length);
+	console.log(tmp.join(','));
 };

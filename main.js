@@ -20,9 +20,8 @@ function onGraph(graph) {
 	// console.log(graph.R);
 	// console.log(finishTimes);
 
-	scc.calcSCC(graph.G, finishTimes);
-
-	// console.log(graph.G);
+	var res = scc.calcSCC(graph.G, finishTimes);
+  scc.showStats(res, 5);
 }
 
 if(require.main == module) {
